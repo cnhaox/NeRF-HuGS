@@ -1,0 +1,2 @@
+sfm_point_count_threshold: 40
+residual_quantile_upper: 0.9

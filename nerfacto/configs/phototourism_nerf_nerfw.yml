@@ -1,0 +1,69 @@
+base:
+  seed: 12345678
+  enable_amp: False
+  # data
+  dataset_type: phototourism
+  downsample_factor: 2
+  bound: 2
+  rescale_scene: True
+  enable_scene_contraction: False
+  near: 0.001 # useless here
+  far: 2.0 # useless here
+  enable_clip_near_far: False
+  train_background_color: random
+  test_background_color: gray
+  # model
+  model_type: nerf
+  render_chunk_size: 8192
+  # train.py
+  batch_size: 4096
+  patch_size: 16
+  patch_dilation: 1
+  num_img_per_batch: 16
+  num_steps: 250000
+  warmup_steps: 500
+  lr_init: 1.0e-3
+  opt_betas: [0.9, 0.999]
+  opt_eps: 1.0e-8
+  lr_final: 1.0e-5
+  lr_decay_mult: 0.01
+  eval_render_every: 5000
+  eval_images_num: 5
+  save_eval_render: True
+  use_eval_lpips: False
+  save_weight_every: 10000
+
+  finetune_enable: True
+  finetune_batch_size: 4096
+  finetune_patch_size: 16
+  finetune_patch_dilation: 1
+  finetune_num_img_per_batch: 16
+  finetune_num_steps: 5000
+  finetune_warmup_steps: 500
+  finetune_params: [appearance_embedding]
+  finetune_lr_init: 5.0e-3
+  finetune_opt_betas: [0.9, 0.999]
+  finetune_opt_eps: 1.0e-8
+  finetune_lr_final: 5.0e-4
+  finetune_lr_decay_mult: 0.01
+  # test.py
+  save_test_render: True
+
+model:
+  net_width: 256
+  max_deg_point: 15
+
+  transient_type: nerfw
+  use_appearance_embedding: True
+  use_transient_embedding: True
+  appearance_embedding_dim: 48
+  transient_embedding_dim: 16
+  eval_embedding: original
+  opaque_background: True
+
+  num_coarse_nerf_samples_per_ray: 128
+  num_fine_nerf_samples_per_ray: 128
+  proposal_initial_sampler: uniform
+
+  rgb_loss_type: mse
+  coarse_rgb_loss_mult: 0.5

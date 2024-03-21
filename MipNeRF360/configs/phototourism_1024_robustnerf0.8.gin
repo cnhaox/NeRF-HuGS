@@ -1,0 +1,20 @@
+Config.dataset_loader = 'phototourism'
+Config.near = 1
+Config.far = 2
+Config.factor = 2
+Config.patch_size = 16
+Config.transient_type = 'robustnerf'
+Config.robustnerf_inlier_quantile = 0.8
+Config.finetune_enable = True
+Config.data_loss_type = 'mse'
+Config.distortion_loss_mult = 0.001
+
+Model.num_glo_features = 48
+Model.opaque_background = True
+
+PropMLP.net_depth = 4
+PropMLP.net_width = 256
+PropMLP.disable_rgb = True
+
+NerfMLP.net_depth = 8
+NerfMLP.net_width = 1024

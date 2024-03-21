@@ -1,0 +1,6 @@
+[submodule "MipNeRF360/internal/pycolmap"]
+	path = MipNeRF360/internal/pycolmap
+	url = https://github.com/rmbrualla/pycolmap.git
+[submodule "nerfacto/datasets/pycolmap"]
+	path = nerfacto/datasets/pycolmap
+	url = https://github.com/rmbrualla/pycolmap.git

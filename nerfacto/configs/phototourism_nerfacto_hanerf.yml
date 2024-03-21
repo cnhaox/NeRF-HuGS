@@ -1,0 +1,82 @@
+base:
+  seed: 12345678
+  enable_amp: True
+  # data
+  dataset_type: phototourism
+  downsample_factor: 2
+  bound: 2
+  rescale_scene: True
+  enable_scene_contraction: False
+  near: 0.001 # useless here
+  far: 2.0 # useless here
+  enable_clip_near_far: False
+  train_background_color: random
+  test_background_color: gray
+  # model
+  model_type: nerfacto
+  render_chunk_size: 16384
+  # train.py
+  batch_size: 16384
+  patch_size: 16
+  patch_dilation: 1
+  num_img_per_batch: 64
+  num_steps: 25000
+  warmup_steps: 500
+  lr_init: 1.0e-2
+  opt_betas: [0.9, 0.999]
+  opt_eps: 1.0e-15
+  lr_final: 1.0e-3
+  lr_decay_mult: 1.0e-8
+  eval_render_every: 5000
+  eval_images_num: 2
+  save_eval_render: True
+  use_eval_lpips: False
+  save_weight_every: 25000
+
+  finetune_enable: True
+  finetune_batch_size: 16384
+  finetune_patch_size: 16
+  finetune_patch_dilation: 1
+  finetune_num_img_per_batch: 64
+  finetune_num_steps: 5000
+  finetune_warmup_steps: 500
+  finetune_params: [appearance_embedding]
+  finetune_lr_init: 5.0e-3
+  finetune_opt_betas: [0.9, 0.999]
+  finetune_opt_eps: 1.0e-8
+  finetune_lr_final: 5.0e-4
+  finetune_lr_decay_mult: 0.01
+  # test.py
+  save_test_render: True
+
+model:
+  hidden_dim: 256
+  geo_feat_dim: 64
+  hidden_dim_color: 256
+  base_res: 16
+  max_res: 8192
+  log2_hashmap_size: 21
+  features_per_level: 2
+  enable_tcnn_mlp: False
+
+  transient_type: hanerf
+  use_appearance_embedding: True
+  use_transient_embedding: True
+  appearance_embedding_dim: 48
+  transient_embedding_dim: 128
+  eval_embedding: original
+  opaque_background: True
+
+  num_nerf_samples_per_ray: 128
+  num_proposal_samples_per_ray: [512, 256]
+  num_proposal_iterations: 2
+  proposal_net_args_list: [
+    {base_res: 16, hidden_dim: 64, log2_hashmap_size: 17, features_per_level: 2, num_levels: 5, max_res: 512},
+    {base_res: 16, hidden_dim: 64, log2_hashmap_size: 17, features_per_level: 2, num_levels: 7, max_res: 2048}
+  ]
+  proposal_initial_sampler: uniform
+  proposal_histogram_padding: 0.005
+  proposal_weights_anneal_max_num_iters: 10000
+
+  rgb_loss_type: mse
+  distortion_loss_mult: 0.001

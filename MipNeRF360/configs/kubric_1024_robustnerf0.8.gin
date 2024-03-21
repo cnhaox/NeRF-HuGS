@@ -1,0 +1,17 @@
+Config.dataset_loader = 'kubric'
+Config.near = 0.1
+Config.far = 1.2
+Config.factor = 2
+Config.transient_type = 'robustnerf'
+Config.robustnerf_inlier_quantile = 0.8
+Config.data_loss_type = 'mse'
+Config.distortion_loss_mult = 0.
+
+Model.opaque_background = True
+
+PropMLP.net_depth = 4
+PropMLP.net_width = 256
+PropMLP.disable_rgb = True
+
+NerfMLP.net_depth = 8
+NerfMLP.net_width = 1024

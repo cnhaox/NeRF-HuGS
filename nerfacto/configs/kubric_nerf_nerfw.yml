@@ -1,0 +1,57 @@
+base:
+  seed: 12345678
+  enable_amp: False
+  # data
+  dataset_type: kubric
+  downsample_factor: 2
+  bound: 1
+  rescale_scene: False
+  enable_scene_contraction: False
+  near: 0.1 # useless here
+  far: 2 # useless here
+  enable_clip_near_far: False
+  train_background_color: random
+  test_background_color: gray
+  # model
+  model_type: nerf
+  render_chunk_size: 8192
+  # train.py
+  batch_size: 4096
+  patch_size: 16
+  patch_dilation: 1
+  num_img_per_batch: 16
+  num_steps: 250000
+  warmup_steps: 500
+  lr_init: 1.0e-3
+  opt_betas: [0.9, 0.999]
+  opt_eps: 1.0e-8
+  lr_final: 1.0e-5
+  lr_decay_mult: 0.01
+  eval_render_every: 5000
+  eval_images_num: 5
+  save_eval_render: True
+  use_eval_lpips: False
+  save_weight_every: 10000
+
+  finetune_enable: False
+  # test.py
+  save_test_render: True
+
+model:
+  net_width: 256
+  max_deg_point: 15
+
+  transient_type: nerfw
+  use_appearance_embedding: False
+  use_transient_embedding: True
+  appearance_embedding_dim: 48
+  transient_embedding_dim: 16
+  eval_embedding: original
+  opaque_background: True
+
+  num_coarse_nerf_samples_per_ray: 64
+  num_fine_nerf_samples_per_ray: 64
+  proposal_initial_sampler: uniform
+
+  rgb_loss_type: mse
+  coarse_rgb_loss_mult: 0.5

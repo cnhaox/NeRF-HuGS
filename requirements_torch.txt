@@ -1,0 +1,7 @@
+tqdm
+pandas
+matplotlib
+tensorboard
+scikit-learn
+opencv-python
+torchmetrics
