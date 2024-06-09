@@ -1,6 +1,6 @@
 # NeRF-HuGS: Improved Neural Radiance Fields in Non-static Scenes Using Heuristics-Guided Segmentation
 
-[Jiahao Chen](https://cnhaox.github.io), [Yipeng Qin](https://yipengqin.github.io), [Lingjie Liu](https://lingjie0206.github.io), [Jiangbo lu](https://sites.google.com/site/jiangbolu), [Guanbin Li](http://guanbinli.com)
+[Jiahao Chen](https://cnhaox.github.io), [Yipeng Qin](https://yipengqin.github.io), [Lingjie Liu](https://lingjie0206.github.io), [Jiangbo Lu](https://sites.google.com/site/jiangbolu), [Guanbin Li](http://guanbinli.com)
 
 [[`Paper`](https://arxiv.org/abs/2403.17537)] [[`Project`](https://cnhaox.github.io/NeRF-HuGS/)] [[`Data`](https://drive.google.com/drive/folders/19xmJGgL4VlqviXIDdiy-tLzthu6SJrzn?usp=sharing)] [[`BibTeX`](#Citation)]
 
