@@ -5,3 +5,5 @@ tensorboard
 scikit-learn
 opencv-python
 torchmetrics
+git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
+git+https://github.com/facebookresearch/segment-anything.git

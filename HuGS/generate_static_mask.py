@@ -37,7 +37,7 @@ class SegmentConfig:
 
     # parameters that control SfM-based segmentation
     sfm_point_count_threshold: int = 5
-    """Threshold $\mathcal{T}_{SfM}$ that filter feature points."""
+    """Threshold $\mathcal{T}_{SfM}$ that filter feature points based on the number of matching points $n_i^j$."""
     sfm_delete_outlier_points: bool = False
     """Whether to delete outlier points (far away from others) after filtering."""
     sfm_cluster_num: int = -1

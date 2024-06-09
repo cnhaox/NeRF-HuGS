@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="NeRF-HuGS">
+  <meta name="keywords" content="NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NeRF-HuGS</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="./static/js/video_comparison.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">NeRF-HuGS</h1>
+          <h1 class="title is-2 publication-title">Improved Neural Radiance Fields in Non-static Scenes Using Heuristics-Guided Segmentation</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://cnhaox.github.io">Jiahao Chen</a><sup>1</sup>&nbsp&nbsp
+            </span>
+            <span class="author-block">
+              <a href="https://yipengqin.github.io">Yipeng Qin</a><sup>2</sup>&nbsp&nbsp
+            </span>
+            <span class="author-block">
+              <a href="https://lingjie0206.github.io">Lingjie Liu</a><sup>3</sup>&nbsp&nbsp
+            </span>
+            <span class="author-block">
+              <a href="https://sites.google.com/site/jiangbolu">Jiangbo Lu</a><sup>4</sup>&nbsp&nbsp
+            </span>
+            <span class="author-block">
+              <a href="http://guanbinli.com/">Guanbin Li</a><sup>1+</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Sun Yat-sen University &nbsp&nbsp</span>
+            <span class="author-block"><sup>2</sup>Cardiff University &nbsp&nbsp</span>
+            <span class="author-block"><sup>3</sup>University of Pennsylvania &nbsp&nbsp</span>
+            <span class="author-block"><sup>4</sup>SmartMore Corporation</span>
+          </div>
+
+          <div class="is-size-6 publication-authors">
+            <span class="author-block"><sup>+</sup>corresponding authors</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="is-size-4 publication-authors">
+              <span class="author-block"><b>CVPR 2024 (Oral)</b></span>
+            </div>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2403.17537.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2403.17537"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://youtu.be/T_9l3gW3B4I?si=6bYEbuBg0nHXc6NH"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/cnhaox/NeRF-HuGS"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="https://drive.google.com/drive/folders/19xmJGgL4VlqviXIDdiy-tLzthu6SJrzn?usp=sharing"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Neural Radiance Field (NeRF) has been widely recognized for its excellence in novel view synthesis and 3D scene reconstruction. 
+            However, their effectiveness is inherently tied to the assumption of static scenes, 
+            rendering them susceptible to undesirable artifacts when confronted with transient distractors such as moving objects or shadows.
+          </p>
+          <p>
+            In this work, we propose a novel paradigm, namely ''Heuristics-Guided Segmentation'' (HuGS), 
+            which significantly enhances the separation of static scenes from transient distractors by harmoniously combining the strengths of hand-crafted heuristics and state-of-the-art segmentation models, 
+            thus significantly transcending the limitations of previous solutions. 
+            Furthermore, we delve into the meticulous design of heuristics, 
+            introducing a seamless fusion of Structure-from-Motion (SfM)-based heuristics and color residual heuristics, catering to a diverse range of texture profiles. 
+          </p>
+          <p>
+            Extensive experiments demonstrate the superiority and robustness of our method in mitigating transient distractors for NeRFs trained in non-static scenes.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+    <!-- Paper video. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/T_9l3gW3B4I?si=0RmLUN0K2i9KvAEk"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h3 class="title is-3 is-centered" style="text-align: center;">Heuristics-Guided Segmentation (HuGS)</h2>
+        <div class="content">
+          <img src="./static/images/pipeline.png" alt="HuGS Pipeline" width="100%">
+          <p>
+            <b>Pipeline of HuGS:</b>
+            (a) Given unordered images of a static scene disturbed by transient distractors as input, we first obtain two types of heuristics.
+            (b) SfM-based heuristics use SfM to distinguish between static (<span style="color:rgb(0,171,79)">green</span>) and transient features (<span style="color:rgb(255,46,23)">red</span>).
+            The static features are then employed as point prompts to generate dense masks using SAM. 
+            (c) Residual-based heuristics are based on a partially trained NeRF (ie, trained for several thousands of iterations) that can provide reasonable color residuals. 
+            (d) Their combination finally guides SAM again to generate (e) the static map for each input image.
+          </p>
+          <br>
+          <p>
+            <b>Visualization:</b> Here are examples of HuGS on different scenes (datasets). More results can be found in the paper and the data.
+
+          </p>
+          <div class="video-grid-6 has-text-centered">
+            <div>(1) Input</div>
+            <div>(2) Seg. w/ SfM</div>
+            <div>(3) H<sup>SfM</sup></div>
+            <div>(4) Color Residual</div>
+            <div>(5) H<sup>CR</sup></div>
+            <div>(6) Static Map</div>
+          </div>
+          <div class="video-grid-6 has-text-centered">
+            <div><img src="./static/images/segmentation_visualization/robust_yoda_2clutter2_input.png" alt="yoda gt" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_yoda_2clutter2_sfm.png" alt="yoda sfm" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_yoda_2clutter2_sfm_mask.png" alt="yoda sfm mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_yoda_2clutter2_residual.png" alt="yoda residual" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_yoda_2clutter2_res_mask.png" alt="yoda res mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_yoda_2clutter2_final_mask.png" alt="yoda final mask" width="100%"></div>
+          </div>
+          <div class="video-grid-6 has-text-centered">
+            <div><img src="./static/images/segmentation_visualization/robust_crab_99932_input.png" alt="crab gt" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_crab_99932_sfm.png" alt="crab sfm" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_crab_99932_sfm_mask.png" alt="crab sfm mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_crab_99932_residual.png" alt="crab residual" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_crab_99932_res_mask.png" alt="crab res mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_crab_99932_final_mask.png" alt="crab final mask" width="100%"></div>
+          </div>
+          <div class="video-grid-6 has-text-centered">
+            <div><img src="./static/images/segmentation_visualization/robust_statue_IMG_4832_input.png" alt="statue gt" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_statue_IMG_4832_sfm.png" alt="statue sfm" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_statue_IMG_4832_sfm_mask.png" alt="statue sfm mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_statue_IMG_4832_residual.png" alt="statue residual" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_statue_IMG_4832_res_mask.png" alt="statue res mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_statue_IMG_4832_final_mask.png" alt="statue final mask" width="100%"></div>
+          </div>
+          <div class="video-grid-6 has-text-centered">
+            <div><img src="./static/images/segmentation_visualization/robust_andbot_IMG_2025_input.png" alt="andbot gt" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_andbot_IMG_2025_sfm.png" alt="andbot sfm" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_andbot_IMG_2025_sfm_mask.png" alt="andbot sfm mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_andbot_IMG_2025_residual.png" alt="andbot residual" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_andbot_IMG_2025_res_mask.png" alt="andbot res mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/robust_andbot_IMG_2025_final_mask.png" alt="andbot final mask" width="100%"></div>
+          </div>
+          <div class="video-grid-6 has-text-centered">
+            <div><img src="./static/images/segmentation_visualization/kubric_pillow_rgba_00021_input.png" alt="pillow gt" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/kubric_pillow_rgba_00021_sfm.png" alt="pillow sfm" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/kubric_pillow_rgba_00021_sfm_mask.png" alt="pillow sfm mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/kubric_pillow_rgba_00021_residual.png" alt="pillow residual" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/kubric_pillow_rgba_00021_res_mask.png" alt="pillow res mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/kubric_pillow_rgba_00021_final_mask.png" alt="pillow final mask" width="100%"></div>
+          </div>
+          <div class="video-grid-6 has-text-centered">
+            <div><img src="./static/images/segmentation_visualization/kubric_cars_rgba_00070_input.png" alt="cars gt" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/kubric_cars_rgba_00070_sfm.png" alt="cars sfm" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/kubric_cars_rgba_00070_sfm_mask.png" alt="cars sfm mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/kubric_cars_rgba_00070_residual.png" alt="cars residual" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/kubric_cars_rgba_00070_res_mask.png" alt="cars res mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/kubric_cars_rgba_00070_final_mask.png" alt="cars final mask" width="100%"></div>
+          </div>
+          <div class="video-grid-6 has-text-centered">
+            <div><img src="./static/images/segmentation_visualization/phototourism_brandenburg_20366299_2271189237_input.png" alt="brandenburg gt" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_brandenburg_20366299_2271189237_sfm.png" alt="brandenburg sfm" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_brandenburg_20366299_2271189237_sfm_mask.png" alt="brandenburg sfm mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_brandenburg_20366299_2271189237_residual.png" alt="brandenburg residual" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_brandenburg_20366299_2271189237_res_mask.png" alt="brandenburg res mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_brandenburg_20366299_2271189237_final_mask.png" alt="brandenburg final mask" width="100%"></div>
+          </div>
+          <div class="video-grid-6 has-text-centered">
+            <div><img src="./static/images/segmentation_visualization/phototourism_sacre_20179898_3676553790_input.png" alt="sacre gt" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_sacre_20179898_3676553790_sfm.png" alt="sacre sfm" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_sacre_20179898_3676553790_sfm_mask.png" alt="sacre sfm mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_sacre_20179898_3676553790_residual.png" alt="sacre residual" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_sacre_20179898_3676553790_res_mask.png" alt="sacre res mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_sacre_20179898_3676553790_final_mask.png" alt="sacre final mask" width="100%"></div>
+          </div>
+          <div class="video-grid-6 has-text-centered">
+            <div><img src="./static/images/segmentation_visualization/phototourism_taj_61293486_6619693529_input.png" alt="taj gt" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_taj_61293486_6619693529_sfm.png" alt="taj sfm" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_taj_61293486_6619693529_sfm_mask.png" alt="taj sfm mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_taj_61293486_6619693529_residual.png" alt="taj residual" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_taj_61293486_6619693529_res_mask.png" alt="taj res mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_taj_61293486_6619693529_final_mask.png" alt="taj final mask" width="100%"></div>
+          </div>
+          <div class="video-grid-6 has-text-centered">
+            <div><img src="./static/images/segmentation_visualization/phototourism_trevi_01005006_6303451772_input.png" alt="trevi gt" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_trevi_01005006_6303451772_sfm.png" alt="trevi sfm" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_trevi_01005006_6303451772_sfm_mask.png" alt="trevi sfm mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_trevi_01005006_6303451772_residual.png" alt="trevi residual" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_trevi_01005006_6303451772_res_mask.png" alt="trevi res mask" width="100%"></div>
+            <div><img src="./static/images/segmentation_visualization/phototourism_trevi_01005006_6303451772_final_mask.png" alt="trevi final mask" width="100%"></div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h3 class="title is-3 is-centered" style="text-align: center;">Rendering Results</h2>
+        <p>
+          <b>Comparisons on the Distractor Dataset:</b>  Our method can better preserve static details while ignoring transient distractors.
+        </p>
+        <br>
+        <div class="content has-text-centered">
+          <div class="video-grid-3-with-left">
+            <div class="vertical-text">BabyYoda</div>
+            <div>
+              Mip-NeRF 360
+              <video class="video" preload="auto" id="yoda1" loop playsinline autoPlay muted src="static/videos/compare_yoda_base.mp4" onplay="resizeAndPlayMultiWhenReady(this, ['yoda2', 'yoda3'])"></video>
+              <canvas height=0 class="videoMerge" id="yoda1Merge"></canvas>
+            </div>
+            <div>
+              w/ RobustNeRF
+              <video class="video" preload="auto" id="yoda2" loop playsinline autoPlay muted src="static/videos/compare_yoda_robustnerf.mp4"></video>
+              <canvas height=0 class="videoMerge" id="yoda2Merge"></canvas>
+            </div>
+            <div>
+              w/ HuGS (<b>ours</b>) 
+              <video class="video" preload="auto" id="yoda3" loop playsinline autoPlay muted src="static/videos/compare_yoda_withmask.mp4"></video>
+              <canvas height=0 class="videoMerge" id="yoda3Merge"></canvas>
+            </div>
+          </div>
+          <div class="video-grid-3-with-left">
+            <div class="vertical-text">Crab</div>
+            <div>
+              <video class="video" preload="auto" id="crab1" loop playsinline autoPlay muted src="static/videos/compare_crab_base.mp4" onplay="resizeAndPlayMultiWhenReady(this, ['crab2', 'crab3'])"></video>
+              <canvas height=0 class="videoMerge" id="crab1Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="crab2" loop playsinline autoPlay muted src="static/videos/compare_crab_robustnerf.mp4"></video>
+              <canvas height=0 class="videoMerge" id="crab2Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="crab3" loop playsinline autoPlay muted src="static/videos/compare_crab_withmask.mp4"></video>
+              <canvas height=0 class="videoMerge" id="crab3Merge"></canvas>
+            </div>
+          </div>
+          <div class="video-grid-3-with-left">
+            <div class="vertical-text">Statue</div>
+            <div>
+              <video class="video" preload="auto" id="t_balloon_statue1" loop playsinline autoPlay muted src="static/videos/compare_t_balloon_statue_base.mp4" onplay="resizeAndPlayMultiWhenReady(this, ['t_balloon_statue2', 't_balloon_statue3'])"></video>
+              <canvas height=0 class="videoMerge" id="t_balloon_statue1Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="t_balloon_statue2" loop playsinline autoPlay muted src="static/videos/compare_t_balloon_statue_robustnerf.mp4"></video>
+              <canvas height=0 class="videoMerge" id="t_balloon_statue2Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="t_balloon_statue3" loop playsinline autoPlay muted src="static/videos/compare_t_balloon_statue_withmask.mp4"></video>
+              <canvas height=0 class="videoMerge" id="t_balloon_statue3Merge"></canvas>
+            </div>
+          </div>
+          <div class="video-grid-3-with-left">
+            <div class="vertical-text">Android</div>
+            <div>
+              <video class="video" preload="auto" id="and-bot1" loop playsinline autoPlay muted src="static/videos/compare_and-bot_base.mp4" onplay="resizeAndPlayMultiWhenReady(this, ['and-bot2', 'and-bot3'])"></video>
+              <canvas height=0 class="videoMerge" id="and-bot1Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="and-bot2" loop playsinline autoPlay muted src="static/videos/compare_and-bot_robustnerf.mp4"></video>
+              <canvas height=0 class="videoMerge" id="and-bot2Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="and-bot3" loop playsinline autoPlay muted src="static/videos/compare_and-bot_withmask.mp4"></video>
+              <canvas height=0 class="videoMerge" id="and-bot3Merge"></canvas>
+            </div>
+          </div>
+        </div>
+        <br>
+        <p>
+          <b>Comparisons on the Kubric Dataset:</b>
+        </p>
+        <br>
+        <div class="content has-text-centered">
+          <div class="video-grid-3-with-left">
+            <div class="vertical-text">Pillow</div>
+            <div>
+              Mip-NeRF 360
+              <video class="video" preload="auto" id="pillow1" loop playsinline autoPlay muted src="static/videos/compare_pillow_base.mp4" onplay="resizeAndPlayMultiWhenReady(this, ['pillow2', 'pillow3'])"></video>
+              <canvas height=0 class="videoMerge" id="pillow1Merge"></canvas>
+            </div>
+            <div>
+              w/ RobustNeRF
+              <video class="video" preload="auto" id="pillow2" loop playsinline autoPlay muted src="static/videos/compare_pillow_robustnerf.mp4"></video>
+              <canvas height=0 class="videoMerge" id="pillow2Merge"></canvas>
+            </div>
+            <div>
+              w/ HuGS (<b>ours</b>) 
+              <video class="video" preload="auto" id="pillow3" loop playsinline autoPlay muted src="static/videos/compare_pillow_withmask.mp4"></video>
+              <canvas height=0 class="videoMerge" id="pillow3Merge"></canvas>
+            </div>
+          </div>
+          <div class="video-grid-3-with-left">
+            <div class="vertical-text">Chairs</div>
+            <div>
+              <video class="video" preload="auto" id="chair1" loop playsinline autoPlay muted src="static/videos/compare_chair_base.mp4" onplay="resizeAndPlayMultiWhenReady(this, ['chair2', 'chair3'])"></video>
+              <canvas height=0 class="videoMerge" id="chair1Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="chair2" loop playsinline autoPlay muted src="static/videos/compare_chair_robustnerf.mp4"></video>
+              <canvas height=0 class="videoMerge" id="chair2Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="chair3" loop playsinline autoPlay muted src="static/videos/compare_chair_withmask.mp4"></video>
+              <canvas height=0 class="videoMerge" id="chair3Merge"></canvas>
+            </div>
+          </div>
+          <div class="video-grid-3-with-left">
+            <div class="vertical-text">Cars</div>
+            <div>
+              <video class="video" preload="auto" id="cars1" loop playsinline autoPlay muted src="static/videos/compare_car_base.mp4" onplay="resizeAndPlayMultiWhenReady(this, ['cars2', 'cars3'])"></video>
+              <canvas height=0 class="videoMerge" id="cars1Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="cars2" loop playsinline autoPlay muted src="static/videos/compare_car_robustnerf.mp4"></video>
+              <canvas height=0 class="videoMerge" id="cars2Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="cars3" loop playsinline autoPlay muted src="static/videos/compare_car_withmask.mp4"></video>
+              <canvas height=0 class="videoMerge" id="cars3Merge"></canvas>
+            </div>
+          </div>
+        </div>
+        <br>
+        <p>
+          <b>Comparisons on the Phototourism Dataset:</b>
+        </p>
+        <br>
+        <div class="content has-text-centered">
+          <div class="video-grid-3-with-left">
+            <div class="vertical-text">Brandenburg Gate</div>
+            <div>
+              Mip-NeRF 360
+              <video class="video" preload="auto" id="brandenburg_gate1" loop playsinline autoPlay muted src="static/videos/compare_brandenburg_gate_base.mp4" onplay="resizeAndPlayMultiWhenReady(this, ['brandenburg_gate2', 'brandenburg_gate3'])"></video>
+              <canvas height=0 class="videoMerge" id="brandenburg_gate1Merge"></canvas>
+            </div>
+            <div>
+              w/ RobustNeRF
+              <video class="video" preload="auto" id="brandenburg_gate2" loop playsinline autoPlay muted src="static/videos/compare_brandenburg_gate_robustnerf.mp4"></video>
+              <canvas height=0 class="videoMerge" id="brandenburg_gate2Merge"></canvas>
+            </div>
+            <div>
+              w/ HuGS (<b>ours</b>)  
+              <video class="video" preload="auto" id="brandenburg_gate3" loop playsinline autoPlay muted src="static/videos/compare_brandenburg_gate_withmask.mp4"></video>
+              <canvas height=0 class="videoMerge" id="brandenburg_gate3Merge"></canvas>
+            </div>
+          </div>
+          <div class="video-grid-3-with-left">
+            <div class="vertical-text">Sacre Coeur</div>
+            <div>
+              <video class="video" preload="auto" id="sacre_coeur1" loop playsinline autoPlay muted src="static/videos/compare_sacre_coeur_base.mp4" onplay="resizeAndPlayMultiWhenReady(this, ['sacre_coeur2', 'sacre_coeur3'])"></video>
+              <canvas height=0 class="videoMerge" id="sacre_coeur1Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="sacre_coeur2" loop playsinline autoPlay muted src="static/videos/compare_sacre_coeur_robustnerf.mp4"></video>
+              <canvas height=0 class="videoMerge" id="sacre_coeur2Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="sacre_coeur3" loop playsinline autoPlay muted src="static/videos/compare_sacre_coeur_withmask.mp4"></video>
+              <canvas height=0 class="videoMerge" id="sacre_coeur3Merge"></canvas>
+            </div>
+          </div>
+          <div class="video-grid-3-with-left">
+            <div class="vertical-text">Taj Mahal</div>
+            <div>
+              <video class="video" preload="auto" id="taj_mahal1" loop playsinline autoPlay muted src="static/videos/compare_taj_mahal_base.mp4" onplay="resizeAndPlayMultiWhenReady(this, ['taj_mahal2', 'taj_mahal3'])"></video>
+              <canvas height=0 class="videoMerge" id="taj_mahal1Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="taj_mahal2" loop playsinline autoPlay muted src="static/videos/compare_taj_mahal_robustnerf.mp4"></video>
+              <canvas height=0 class="videoMerge" id="taj_mahal2Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="taj_mahal3" loop playsinline autoPlay muted src="static/videos/compare_taj_mahal_withmask.mp4"></video>
+              <canvas height=0 class="videoMerge" id="taj_mahal3Merge"></canvas>
+            </div>
+          </div>
+          <div class="video-grid-3-with-left">
+            <div class="vertical-text">Trevi Fountain</div>
+            <div>
+              <video class="video" preload="auto" id="trevi_fountain1" loop playsinline autoPlay muted src="static/videos/compare_trevi_fountain_base.mp4" onplay="resizeAndPlayMultiWhenReady(this, ['trevi_fountain2', 'trevi_fountain3'])"></video>
+              <canvas height=0 class="videoMerge" id="trevi_fountain1Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="trevi_fountain2" loop playsinline autoPlay muted src="static/videos/compare_trevi_fountain_robustnerf.mp4"></video>
+              <canvas height=0 class="videoMerge" id="trevi_fountain2Merge"></canvas>
+            </div>
+            <div>
+              <video class="video" preload="auto" id="trevi_fountain3" loop playsinline autoPlay muted src="static/videos/compare_trevi_fountain_withmask.mp4"></video>
+              <canvas height=0 class="videoMerge" id="trevi_fountain3Merge"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{chen2024nerfhugs,
+  author    = {Chen, Jiahao and Qin, Yipeng and Liu, Lingjie and Lu, Jiangbo and Li, Guanbin},
+  title     = {NeRF-HuGS: Improved Neural Radiance Fields in Non-static Scenes Using Heuristics-Guided Segmentation},
+  journal   = {CVPR},
+  year      = {2024},
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="https://arxiv.org/pdf/2403.17537.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://cnhaox.github.io" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            The website template is borrowed from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> and <a href="https://dorverbin.github.io/refnerf/">Ref-NeRF</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
