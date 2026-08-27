@@ -15,7 +15,7 @@
 
 ## Introduction
 
-This repository contains the code release for **CVPR 2024 (Oral)** paper "NeRF-HuGS: Improved Neural Radiance Fields in Non-static Scenes Using Heuristics-Guided Segmentation".
+This repository contains the code release for **CVPR 2024 (Best Paper Award Candidate)** paper "NeRF-HuGS: Improved Neural Radiance Fields in Non-static Scenes Using Heuristics-Guided Segmentation".
 
 The codebase mainly consists of three parts:
 
